@@ -15,7 +15,7 @@ pybind11_add_module(${PROJECT_NAME}
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE
-    cxx_std_11
+    cxx_std_17
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE

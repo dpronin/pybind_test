@@ -1,6 +1,7 @@
 #include <pybind11/cast.h>
 #include <pybind11/pybind11.h>
 
+#include <iostream>
 #include <type_traits>
 #include <utility>
 
@@ -29,6 +30,13 @@ private:
 
 int add(int i = 1, int j = 2) { return i + j; }
 
+void print_dict(const pybind11::dict &dict) {
+  /* Easily interact with Python types */
+  for (auto const &[first, second] : dict)
+    std::cout << "key=" << std::string(pybind11::str(first)) << ", "
+              << "value=" << std::string(pybind11::str(second)) << std::endl;
+}
+
 } // namespace
 
 PYBIND11_MODULE(pybind_test, m) {
@@ -36,6 +44,8 @@ PYBIND11_MODULE(pybind_test, m) {
   using namespace py::literals;
 
   m.def("add", &add, "A function that adds two numbers", "i"_a = 1, "j"_a = 2);
+  m.def("print_dict", &print_dict,
+        "A function that prints a python's dictionary");
   m.attr("answer") = 42;
   m.attr("what") = py::cast("World");
 
